@@ -1,9 +1,11 @@
 from rest_framework.views import APIView
-from .serializers import UserSerializer
+from .serializers import UserSerializer,ProfileSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
-from .models import User
+from .models import Profile, User
 import jwt,datetime
+from django.shortcuts import get_object_or_404
+
 
 # Create your views here.
 class Overview(APIView):
@@ -14,8 +16,9 @@ class Overview(APIView):
             'create-user':'/register/',
             'login':'/login/',
             'logout':'/logout/',
-            'update-user':'/update-user/<int:pk>',
-            'delete-user':'/delete-user/<int:pk>',
+            'profile':'user/<int:pk>/profile/'
+        #    'update-user':'/update-user/<int:pk>',
+        #     'delete-user':'/delete-user/<int:pk>', 
 
         }
 
@@ -68,7 +71,7 @@ class UserView(APIView):
             payload = jwt.decode(token,'secret',algorithms=['HS256'])
 
         except jwt.ExpiredSignatureError:
-                raise AuthenticationFailed('Unauthenticated!')
+                raise AuthenticationFailed('Token Expired!')
 
         user = User.objects.filter(id = payload['id']).first() 
         serializer = UserSerializer(user)   
@@ -82,7 +85,20 @@ class LogoutView(APIView):
             'message':'Logged out successfully!'
         }
         return response
-  
 
+class ProfileView(APIView):
+    def get(self, request,pk):
+        user = Profile.objects.get(pk = pk)
+        profile_serializer = ProfileSerializer(user)
+        return Response(profile_serializer.data)
+
+
+
+
+    # def post(self, request,pk, format=None):
+    #     serializer = ProfileSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data)
 
 

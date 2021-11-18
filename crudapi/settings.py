@@ -16,6 +16,9 @@ import django_heroku
 import dj_database_url
 from decouple import config,Csv
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,8 +52,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'drf_yasg',
-
-
 
 ]
 
@@ -91,14 +92,14 @@ WSGI_APPLICATION = 'crudapi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'crudapi',
-#         'USER': 'moringa',
-#     'PASSWORD':'Access',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'crudapi',
+        'USER': 'moringa',
+    'PASSWORD':'Access',
+    }
+}
 
 
 # development
@@ -181,5 +182,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'crud.User'
 django_heroku.settings(locals())
+
+cloudinary.config( 
+  cloud_name = "oti", 
+  api_key = "578779144989242", 
+  api_secret = "e_rEKRXfpiHi0VCmXtfe8X6aB5k" 
+)
 
 
