@@ -8,6 +8,4 @@ urlpatterns = [
     path('logout/',LogoutView.as_view(),name = 'logout'),
     path('user/<int:pk>/profile/', ProfileView.as_view())
 
-
-
 ]
