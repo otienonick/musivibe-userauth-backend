@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'crud',
     'rest_framework',
     'corsheaders',
+    'drf_yasg',
+
 
 
 ]
