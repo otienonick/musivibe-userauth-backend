@@ -1,1 +1,1 @@
-default_app_config = 'crud.apps.CrudConfig'
+# default_app_config = 'crud.apps.CrudConfig'

@@ -1,10 +1,13 @@
 from rest_framework.views import APIView
-from .serializers import UserSerializer,ProfileSerializer
+from .serializers import UserSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
-from .models import Profile, User
+from .models import User
 import jwt,datetime
-from django.shortcuts import get_object_or_404
+from rest_framework import status
+
+
+# from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -16,10 +19,7 @@ class Overview(APIView):
             'create-user':'/register/',
             'login':'/login/',
             'logout':'/logout/',
-            'profile':'user/<int:pk>/profile/'
-        #    'update-user':'/update-user/<int:pk>',
-        #     'delete-user':'/delete-user/<int:pk>', 
-
+           'update-user':'/user/<int:pk>',
         }
 
         return Response(api_urls)
@@ -29,6 +29,11 @@ class RegisterView(APIView):
         serializer = UserSerializer(data = request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        return Response(serializer.data)
+
+    def get(self,request):
+        user =  User.objects.all()
+        serializer = UserSerializer(user,many=True)
         return Response(serializer.data)
 
 class LoginView(APIView):
@@ -77,6 +82,17 @@ class UserView(APIView):
         serializer = UserSerializer(user)   
 
         return Response(serializer.data)
+
+
+    def put(self, request,pk):
+        user = User.objects.get(pk = pk)
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class LogoutView(APIView):
     def post(self,request):
         response = Response()
@@ -86,19 +102,5 @@ class LogoutView(APIView):
         }
         return response
 
-class ProfileView(APIView):
-    def get(self, request,pk):
-        user = Profile.objects.get(pk = pk)
-        profile_serializer = ProfileSerializer(user)
-        return Response(profile_serializer.data)
-
-
-
-
-    # def post(self, request,pk, format=None):
-    #     serializer = ProfileSerializer(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
 
 
