@@ -15,10 +15,8 @@ import os
 import django_heroku
 import dj_database_url
 from decouple import config,Csv
-
 import cloudinary
-import cloudinary.uploader
-import cloudinary.api
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -52,6 +50,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'drf_yasg',
+    'cloudinary_storage',
+    'cloudinary',
 
 ]
 
@@ -182,10 +182,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'crud.User'
 django_heroku.settings(locals())
 
-cloudinary.config( 
-  cloud_name = "oti", 
-  api_key = "578779144989242", 
-  api_secret = "e_rEKRXfpiHi0VCmXtfe8X6aB5k" 
-)
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'oti',
+    'API_KEY': '578779144989242',
+    'API_SECRET': 'e_rEKRXfpiHi0VCmXtfe8X6aB5k'
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
