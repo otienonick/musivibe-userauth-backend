@@ -8,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = User
-        fields =['id','username','email','password','avatar',]
+        fields =['id','username','email','password','avatar','playlist']
 
         # hide password
         extra_kwargs = {
