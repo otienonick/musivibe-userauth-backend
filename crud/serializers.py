@@ -24,11 +24,4 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-# class ProfileSerializer(serializers.ModelSerializer):
-#     """
-#     A serializer for our user profile objects
-    
-#     """
-#     class Meta:
-#         model = Profile
-#         fields =['avatar','followers','following']
+

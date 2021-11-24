@@ -7,7 +7,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=100,unique=True)
     email= models.EmailField(max_length=254,unique=True)
     password = models.CharField(max_length=254)
-    avatar = CloudinaryField("image",null = True,blank = True) 
+    avatar = CloudinaryField("image",null = True,blank = True ,default='profile.jpg') 
     playlist = models.TextField(null=True,blank=True,default='your playlist...')
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
